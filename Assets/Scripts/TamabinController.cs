@@ -87,6 +87,9 @@ public class TamabinController : MonoBehaviour {
 		#endif
 	}
 
+	public const string EAT = "Eat";
+	public const string NOT_EAT = "Not Eat";
+
 	public void TamabinCall() {
 
 		#if UNITY_ANDROID
@@ -95,7 +98,7 @@ public class TamabinController : MonoBehaviour {
 		#endif
 
 		#if UNITY_EDITOR
-		lastMessage = tamaguchiEat ? "Eat" : "Not eat";
+		lastMessage = tamaguchiEat ? EAT : NOT_EAT;
 		tamaguchiEat = false;
 		#endif
 	}
