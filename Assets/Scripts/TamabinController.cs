@@ -3,8 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class TamabinController : MonoBehaviour {
 
-	#if UNITY_ANDROID
 	public string tamabinBluetoothName;
+
+	#if UNITY_ANDROID
 	TamabinConnector connector;
 	bool connected;
 	#endif
