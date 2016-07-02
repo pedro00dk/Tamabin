@@ -215,7 +215,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: 0
   m_CullingMask:
@@ -237,7 +237,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 598836288}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -270,7 +270,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccebd1191c3ea9345bd6fc3fb9179922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalStateSprites: []
+  normalStateSprites:
+  - {fileID: 21300000, guid: d33fc47fb51b46d478fd0cde698848a2, type: 3}
+  - {fileID: 21300000, guid: 1b148eff77c576c4cb6645ab9b1381e2, type: 3}
+  - {fileID: 21300000, guid: ebbf1c236f686b14c9361cbb6ace690d, type: 3}
+  - {fileID: 21300000, guid: 043360e72aca0994dac43493047b5761, type: 3}
+  - {fileID: 21300000, guid: 7959343d8111db649b8362be55ad2408, type: 3}
+  - {fileID: 21300000, guid: 00184d8847d538f45bf1552327849452, type: 3}
+  - {fileID: 21300000, guid: 58620dd00236acc40a2fa59aa697ef31, type: 3}
+  - {fileID: 21300000, guid: 80efbd30b16e2614f8a6a19834f9d7e2, type: 3}
+  - {fileID: 21300000, guid: e745d5a7f3b0f95468b5f9f5555f3ed7, type: 3}
+  - {fileID: 21300000, guid: e08a0e74b7fc77c46a8a863ad15d6720, type: 3}
+  - {fileID: 21300000, guid: 6e34a03975d30a14fbb399d9e958f683, type: 3}
+  - {fileID: 21300000, guid: b2303e86a4b4f424b9c95da3485147d9, type: 3}
+  - {fileID: 21300000, guid: e8c7afb5cb39e154ca1edae4b5a9bf25, type: 3}
+  - {fileID: 21300000, guid: ea0c71607a1d9d54684d4fa938b5aa83, type: 3}
+  - {fileID: 21300000, guid: eb32d9cd1a6b24040a540d0b922f8fc7, type: 3}
+  - {fileID: 21300000, guid: 98aac2ef32346394094ad2ad26d50668, type: 3}
+  - {fileID: 21300000, guid: 376ea873ca0efef4fa0efb39c96320f4, type: 3}
+  - {fileID: 21300000, guid: 356343b9ddb5c4243b82adf0f1d7b3fc, type: 3}
+  - {fileID: 21300000, guid: 0360a70fd8f0f46448e62090a8859918, type: 3}
+  - {fileID: 21300000, guid: 93b91d7786eba3e4689b38d1b674aaf2, type: 3}
+  - {fileID: 21300000, guid: 0f7e5d9904bda294b8b9af0e50be97e2, type: 3}
+  - {fileID: 21300000, guid: b4219678f97ece641903875abc5b012b, type: 3}
+  - {fileID: 21300000, guid: 7ee6f3a30446091448abb5e3a51240c6, type: 3}
+  - {fileID: 21300000, guid: 766ad6f9f75cd844abfeba41ab9c1637, type: 3}
+  - {fileID: 21300000, guid: f1c9b36e770f1274a859c678ccc33cba, type: 3}
+  - {fileID: 21300000, guid: 45d52387c59957e488f4ab6dfcd27aef, type: 3}
+  - {fileID: 21300000, guid: 3835f7a8cc76eb74e8eb969c0941eb89, type: 3}
+  - {fileID: 21300000, guid: 1516ab9efe8e70c40b0c5eb790e34ddc, type: 3}
+  - {fileID: 21300000, guid: 8496ff02a9fd6fa449761fe7b3d64106, type: 3}
+  - {fileID: 21300000, guid: 6955b0490197714459edba7d20e6dc67, type: 3}
+  - {fileID: 21300000, guid: d44c6e4ec38de124f9b4619fc1e4ad69, type: 3}
+  - {fileID: 21300000, guid: 9270c2719bf648f48acae5d52affcf57, type: 3}
+  - {fileID: 21300000, guid: 612b01fecebd1c143be662f01db00825, type: 3}
+  - {fileID: 21300000, guid: e475a0355875df3438d67002e7d2dfa1, type: 3}
+  - {fileID: 21300000, guid: 4fd8ac134a2929742ab48abefa643434, type: 3}
+  - {fileID: 21300000, guid: e4cdddafc06e95043a9aa7fc861d4b30, type: 3}
+  - {fileID: 21300000, guid: 837c2e41c49ad1e47be51cfec7f05909, type: 3}
+  - {fileID: 21300000, guid: 33d518af251986f428ace7b4170a4c32, type: 3}
+  - {fileID: 21300000, guid: 2bab59286a7c0d74a92d3aa5ac399bc0, type: 3}
+  - {fileID: 21300000, guid: c5b7894ceabcdc04496c0d4907e36b48, type: 3}
+  - {fileID: 21300000, guid: 89c6772999aeab347804b484ef1f221d, type: 3}
+  - {fileID: 21300000, guid: 43cf874d597d2324eb9323b8590efce8, type: 3}
+  - {fileID: 21300000, guid: 47fee9e05f8683b479c1318d4f2e9713, type: 3}
+  - {fileID: 21300000, guid: cb1e195fa59d6b34fa80e6f402f47018, type: 3}
+  - {fileID: 21300000, guid: c9a6dddc53e30ac45bf2f4e50e7b9ae4, type: 3}
+  - {fileID: 21300000, guid: 4f1f40d84b2f6e249a5e61f979ebdef8, type: 3}
+  - {fileID: 21300000, guid: 5ab583f8fd092ba4ca99f4ebc3a57e82, type: 3}
+  - {fileID: 21300000, guid: 71bbe9538c7775e43bb9079fbe91d119, type: 3}
+  - {fileID: 21300000, guid: 19d39b76f4fc2fe4a85b75c3788f9637, type: 3}
+  - {fileID: 21300000, guid: fc30435a2ee1b8c4b8b58d434d3baf5e, type: 3}
   sadStateSprites: []
   happyStateSprites: []
   thankStateSprites: []
