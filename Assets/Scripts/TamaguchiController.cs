@@ -45,7 +45,7 @@ public class TamaguchiController : MonoBehaviour {
 
 		switch (state) {
 		case TamaguchiState.NORMAL:
-			if (timeWhenCurrentStateStarted + 60 < Time.time) {
+			if (timeWhenCurrentStateStarted + 30 < Time.time) {
 				SetStateAndResetTime(TamaguchiState.SAD);
 				trashAmount++;
 			} else if (ateTrash) {
@@ -72,7 +72,7 @@ public class TamaguchiController : MonoBehaviour {
 			}
 		break;
 		case TamaguchiState.HAPPY:
-			if (timeWhenCurrentStateStarted + 60 < Time.time) {
+			if (timeWhenCurrentStateStarted + 30 < Time.time) {
 				SetStateAndResetTime(TamaguchiState.NORMAL);
 			} else if (ateTrash) {
 				SetStateAndResetTime(TamaguchiState.THANK);
