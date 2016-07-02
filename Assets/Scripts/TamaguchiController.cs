@@ -1,10 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TamaguchiController : MonoBehaviour {
 
+	public Sprite[] normalStateSprites;
+	public Sprite[] sadStateSprites;
+	public Sprite[] happyStateSprites;
+	public Sprite[] thankStateSprites;
+	public Sprite[] fullClearStateSprites;
+
 	TamabinController tamabinController;
+	SpriteAnimation tamaguchiAnimation;
+
 	TamaguchiState state;
 
 	bool spaceClear;
@@ -15,13 +24,17 @@ public class TamaguchiController : MonoBehaviour {
 
 	float timeWhenCurrentStateStarted;
 
+	Stack<TamaguchiState> stateStack;
+
 	void Start() {
 		tamabinController = FindObjectOfType<TamabinController>();
-		state = TamaguchiState.NORMAL;
+		tamaguchiAnimation = FindObjectOfType<SpriteAnimation>();
+		stateStack = new Stack<TamaguchiState>();
+		SetStateAndResetTime(TamaguchiState.NORMAL);
 		spaceClear = false;
 		tamabinClear = false;
 		trashAmount = 0;
-		timeWhenCurrentStateStarted = Time.time;
+		StartCoroutine(SpriteAnimatorController());
 	}
 
 	void Update() {
@@ -117,6 +130,40 @@ public class TamaguchiController : MonoBehaviour {
 	void SetStateAndResetTime(TamaguchiState state) {
 		this.state = state;
 		timeWhenCurrentStateStarted = Time.time;
+		stateStack.Push(state);
+	}
+
+	public TamaguchiState PopNextState() {
+		return stateStack.Count != 0 ? stateStack.Pop() : TamaguchiState.REPEAT;
+	}
+
+	IEnumerator SpriteAnimatorController() {
+		while (true) {
+			TamaguchiState currentState = PopNextState();
+			switch (currentState) {
+			case TamaguchiState.NORMAL:
+				tamaguchiAnimation.SetSpritesAndStartAnimation(normalStateSprites, 25, true);
+			break;
+			case TamaguchiState.SAD:
+				tamaguchiAnimation.SetSpritesAndStartAnimation(sadStateSprites, 25, true);
+			break;
+			case TamaguchiState.HAPPY:
+				tamaguchiAnimation.SetSpritesAndStartAnimation(happyStateSprites, 25, true);
+			break;
+			case TamaguchiState.THANK:
+				tamaguchiAnimation.SetSpritesAndStartAnimation(thankStateSprites, 25, true);
+			break;
+			case TamaguchiState.FULL:
+				tamaguchiAnimation.SetSpritesAndStartAnimation(fullClearStateSprites, 25, true);
+			break;
+			case TamaguchiState.CLEAR:
+				tamaguchiAnimation.SetSpritesAndStartAnimation(fullClearStateSprites, 25, true);
+			break;
+			case TamaguchiState.REPEAT:
+			break;
+			}
+			yield return null;
+		}
 	}
 
 	public enum TamaguchiState {
@@ -125,6 +172,7 @@ public class TamaguchiController : MonoBehaviour {
 		HAPPY,
 		THANK,
 		FULL,
-		CLEAR
+		CLEAR,
+		REPEAT
 	}
 }
