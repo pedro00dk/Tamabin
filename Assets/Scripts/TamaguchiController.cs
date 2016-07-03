@@ -11,6 +11,14 @@ public class TamaguchiController : MonoBehaviour {
 	public Sprite[] thankStateSprites;
 	public Sprite[] fullClearStateSprites;
 
+	public AudioClip onNormalClip;
+	public AudioClip onSadClip;
+	public AudioClip onHappyClip;
+	public AudioClip onThankClip;
+	public AudioClip onFullClearClip;
+
+	public AudioClip onEatClip;
+
 	TamabinController tamabinController;
 	SpriteAnimation tamaguchiAnimation;
 
@@ -34,79 +42,96 @@ public class TamaguchiController : MonoBehaviour {
 		spaceClear = false;
 		tamabinClear = false;
 		trashAmount = 0;
+
 		StartCoroutine(SpriteAnimatorController());
+
+		lastTimeEat = Time.timeSinceLevelLoad;
 	}
+
+	float lastTimeEat;
 
 	void Update() {
 		tamabinController.TamabinCall();
 		bool ateTrash = tamabinController.GetLastMessage() == TamabinController.EAT;
-		bool tamabinClear = this.tamabinClear;
-		this.tamabinClear = false;
 
-		switch (state) {
-		case TamaguchiState.NORMAL:
-			if (timeWhenCurrentStateStarted + 30 < Time.time) {
-				SetStateAndResetTime(TamaguchiState.SAD);
-				trashAmount++;
-			} else if (ateTrash) {
-				SetStateAndResetTime(TamaguchiState.HAPPY);
-			} else if (spaceClear) {
-				SetStateAndResetTime(TamaguchiState.CLEAR);
-			} else if (tamabinClear) {
-				// Stay on this state
-			} else if (trashAmount >= tamabinFullWhenTrashAmount) {
-				SetStateAndResetTime(TamaguchiState.FULL);
-			}
-		break;
-		case TamaguchiState.SAD:
+		if (lastTimeEat + 2 < Time.timeSinceLevelLoad) {
+
+			bool tamabinClear = this.tamabinClear;
+			this.tamabinClear = false;
+
+			switch (state) {
+			case TamaguchiState.NORMAL:
+				if (timeWhenCurrentStateStarted + 30 < Time.time) {
+					SetStateAndResetTime(TamaguchiState.SAD);
+				} else if (ateTrash) {
+					tamaguchiAnimation.PlayInstantCip(onEatClip);
+					trashAmount++;
+					lastTimeEat = Time.timeSinceLevelLoad;
+					SetStateAndResetTime(TamaguchiState.HAPPY);
+				} else if (spaceClear) {
+					SetStateAndResetTime(TamaguchiState.CLEAR);
+				} else if (tamabinClear) {
+					// Stay on this state
+				} else if (trashAmount >= tamabinFullWhenTrashAmount) {
+					SetStateAndResetTime(TamaguchiState.FULL);
+				}
+			break;
+			case TamaguchiState.SAD:
 			// Time not important on this state
-			if (ateTrash) {
-				SetStateAndResetTime(TamaguchiState.HAPPY);
-				trashAmount++;
-			} else if (spaceClear) {
-				SetStateAndResetTime(TamaguchiState.CLEAR);
-			} else if (tamabinClear) {
-				SetStateAndResetTime(TamaguchiState.NORMAL);
-			} else if (trashAmount >= tamabinFullWhenTrashAmount) {
-				SetStateAndResetTime(TamaguchiState.FULL);
+				if (ateTrash) {
+					tamaguchiAnimation.PlayInstantCip(onEatClip);
+					SetStateAndResetTime(TamaguchiState.HAPPY);
+					trashAmount++;
+					lastTimeEat = Time.timeSinceLevelLoad;
+				} else if (spaceClear) {
+					SetStateAndResetTime(TamaguchiState.CLEAR);
+				} else if (tamabinClear) {
+					SetStateAndResetTime(TamaguchiState.NORMAL);
+				} else if (trashAmount >= tamabinFullWhenTrashAmount) {
+					SetStateAndResetTime(TamaguchiState.FULL);
+				}
+			break;
+			case TamaguchiState.HAPPY:
+				if (timeWhenCurrentStateStarted + 30 < Time.time) {
+					SetStateAndResetTime(TamaguchiState.NORMAL);
+				} else if (ateTrash) {
+					tamaguchiAnimation.PlayInstantCip(onEatClip);
+					SetStateAndResetTime(TamaguchiState.THANK);
+					lastTimeEat = Time.timeSinceLevelLoad;
+				} else if (spaceClear) {
+					SetStateAndResetTime(TamaguchiState.CLEAR);
+				} else if (tamabinClear) {
+					SetStateAndResetTime(TamaguchiState.NORMAL);
+				} else if (trashAmount >= tamabinFullWhenTrashAmount) {
+					SetStateAndResetTime(TamaguchiState.FULL);
+				}
+			break;
+			case TamaguchiState.THANK:
+				if (timeWhenCurrentStateStarted + 6 < Time.time) {
+					SetStateAndResetTime(TamaguchiState.HAPPY);
+				} else if (ateTrash) {
+					tamaguchiAnimation.PlayInstantCip(onEatClip);
+					SetStateAndResetTime(TamaguchiState.THANK);
+					lastTimeEat = Time.timeSinceLevelLoad;
+				} else if (spaceClear) {
+					SetStateAndResetTime(TamaguchiState.CLEAR);
+				} else if (tamabinClear) {
+					SetStateAndResetTime(TamaguchiState.NORMAL);
+				} else if (trashAmount >= tamabinFullWhenTrashAmount) {
+					SetStateAndResetTime(TamaguchiState.FULL);
+				}
+			break;
+			case TamaguchiState.FULL:
+				if (tamabinClear) {
+					SetStateAndResetTime(TamaguchiState.NORMAL);
+				}
+			break;
+			case TamaguchiState.CLEAR:
+				if (!spaceClear) {
+					SetStateAndResetTime(TamaguchiState.NORMAL);
+				}
+			break;
 			}
-		break;
-		case TamaguchiState.HAPPY:
-			if (timeWhenCurrentStateStarted + 30 < Time.time) {
-				SetStateAndResetTime(TamaguchiState.NORMAL);
-			} else if (ateTrash) {
-				SetStateAndResetTime(TamaguchiState.THANK);
-			} else if (spaceClear) {
-				SetStateAndResetTime(TamaguchiState.CLEAR);
-			} else if (tamabinClear) {
-				SetStateAndResetTime(TamaguchiState.NORMAL);
-			} else if (trashAmount >= tamabinFullWhenTrashAmount) {
-				SetStateAndResetTime(TamaguchiState.FULL);
-			}
-		break;
-		case TamaguchiState.THANK:
-			if (timeWhenCurrentStateStarted + 8 < Time.time) {
-				SetStateAndResetTime(TamaguchiState.HAPPY);
-			} else if (ateTrash) {
-				SetStateAndResetTime(TamaguchiState.THANK);
-			} else if (spaceClear) {
-				SetStateAndResetTime(TamaguchiState.CLEAR);
-			} else if (tamabinClear) {
-				SetStateAndResetTime(TamaguchiState.NORMAL);
-			} else if (trashAmount >= tamabinFullWhenTrashAmount) {
-				SetStateAndResetTime(TamaguchiState.FULL);
-			}
-		break;
-		case TamaguchiState.FULL:
-			if (tamabinClear) {
-				SetStateAndResetTime(TamaguchiState.NORMAL);
-			}
-		break;
-		case TamaguchiState.CLEAR:
-			if (!spaceClear) {
-				SetStateAndResetTime(TamaguchiState.NORMAL);
-			}
-		break;
 		}
 	}
 
@@ -142,22 +167,22 @@ public class TamaguchiController : MonoBehaviour {
 			TamaguchiState currentState = PopNextState();
 			switch (currentState) {
 			case TamaguchiState.NORMAL:
-				tamaguchiAnimation.SetSpritesAndStartAnimation(normalStateSprites, 25, true);
+				tamaguchiAnimation.EnqueueSpritesAndWaitLoopAnimation(normalStateSprites, 25, true, onNormalClip, 2);
 			break;
 			case TamaguchiState.SAD:
-				tamaguchiAnimation.SetSpritesAndStartAnimation(sadStateSprites, 25, true);
+				tamaguchiAnimation.EnqueueSpritesAndWaitLoopAnimation(sadStateSprites, 25, true, onSadClip, 2);
 			break;
 			case TamaguchiState.HAPPY:
-				tamaguchiAnimation.SetSpritesAndStartAnimation(happyStateSprites, 25, true);
+				tamaguchiAnimation.EnqueueSpritesAndWaitLoopAnimation(happyStateSprites, 25, true, onHappyClip, 2);
 			break;
 			case TamaguchiState.THANK:
-				tamaguchiAnimation.SetSpritesAndStartAnimation(thankStateSprites, 25, true);
+				tamaguchiAnimation.EnqueueSpritesAndWaitLoopAnimation(thankStateSprites, 25, true, onThankClip, 2);
 			break;
 			case TamaguchiState.FULL:
-				tamaguchiAnimation.SetSpritesAndStartAnimation(fullClearStateSprites, 25, true);
+				tamaguchiAnimation.EnqueueSpritesAndWaitLoopAnimation(fullClearStateSprites, 25, true, onFullClearClip, 2);
 			break;
 			case TamaguchiState.CLEAR:
-				tamaguchiAnimation.SetSpritesAndStartAnimation(fullClearStateSprites, 25, true);
+				tamaguchiAnimation.EnqueueSpritesAndWaitLoopAnimation(fullClearStateSprites, 25, true, onFullClearClip, 2);
 			break;
 			case TamaguchiState.REPEAT:
 			break;
