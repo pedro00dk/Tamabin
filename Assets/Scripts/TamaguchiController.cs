@@ -38,11 +38,11 @@ public class TamaguchiController : MonoBehaviour {
 		tamabinController = FindObjectOfType<TamabinController>();
 		tamaguchiAnimation = FindObjectOfType<SpriteAnimation>();
 		stateStack = new Stack<TamaguchiState>();
-		SetStateAndResetTime(TamaguchiState.NORMAL);
 		spaceClear = false;
 		tamabinClear = false;
 		trashAmount = 0;
-
+		state = TamaguchiState.REPEAT;
+		tamaguchiAnimation.EnqueueSpritesAndWaitLoopAnimation (normalStateSprites, 25, true, null, -1);
 		StartCoroutine(SpriteAnimatorController());
 
 		lastTimeEat = Time.timeSinceLevelLoad;
@@ -50,7 +50,19 @@ public class TamaguchiController : MonoBehaviour {
 
 	float lastTimeEat;
 
+	bool connectedNow;
+
 	void Update() {
+
+		if (!tamabinController.Connected()) {
+			return;
+		}
+
+		if (!connectedNow) {
+			connectedNow = true;
+			SetStateAndResetTime(TamaguchiState.NORMAL);
+		}
+
 		tamabinController.TamabinCall();
 		bool ateTrash = tamabinController.GetLastMessage() == TamabinController.EAT;
 

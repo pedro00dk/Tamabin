@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TamabinController : MonoBehaviour {
 
@@ -18,7 +17,6 @@ public class TamabinController : MonoBehaviour {
 	string lastMessage;
 
 	void Start() {
-		DontDestroyOnLoad(gameObject);
 
 		#if UNITY_ANDROID
 		connector = TamabinConnector.getInstance();
@@ -30,27 +28,6 @@ public class TamabinController : MonoBehaviour {
 		#if UNITY_EDITOR
 		editorConnected = false;
 		tamaguchiEat = false;
-		#endif
-	}
-
-	public void LoadTamaguichiScene() {
-		
-		#if UNITY_ANDROID
-		if (connected) {
-			lastMessage = "Tamaguchi scene loaded";
-			SceneManager.LoadScene("Tamaguchi");
-		} else {
-			lastMessage = "Cannot start without connect";
-		}
-		#endif
-
-		#if UNITY_EDITOR
-		if (editorConnected) {
-			lastMessage = "Tamaguchi scene loaded";
-			SceneManager.LoadScene("Tamaguchi");
-		} else {
-			lastMessage = "Cannot start without connect";
-		}
 		#endif
 	}
 
@@ -68,6 +45,17 @@ public class TamabinController : MonoBehaviour {
 		} else {
 			lastMessage = TamabinConnector.ALREADY_CONNECTED;
 		}
+		#endif
+	}
+
+	public bool Connected() {
+
+		#if UNITY_ANDROID
+		return connected;
+		#endif
+
+		#if UNITY_EDITOR
+		return editorConnected;
 		#endif
 	}
 
